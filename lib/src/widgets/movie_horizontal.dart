@@ -18,43 +18,70 @@ class MovieHorizontal extends StatelessWidget {
     final Size _screenSize = MediaQuery.of(context).size;
 
     _pageController.addListener(() {
-      if(_pageController.position.pixels >= _pageController.position.maxScrollExtent - 200)
-        siguientePagina();
+      if (_pageController.position.pixels >=
+          _pageController.position.maxScrollExtent - 200) siguientePagina();
     });
 
     return Container(
       height: _screenSize.height * 0.25,
-      child: PageView(
+      child: PageView.builder(
         pageSnapping: false,
         controller: _pageController,
-        children: _tarjetas(context),
+        itemCount: peliculas.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _tarjeta(context, peliculas[index]);
+        },
       ),
     );
   }
 
-  List<Widget> _tarjetas(BuildContext context) {
-    return peliculas.map((pelicula) {
-      return Column(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/images/no-image.jpg'),
-              image: NetworkImage(pelicula.getPosterImage()),
-              fit: BoxFit.fill,
-              height: 160.0,
-            ),
+  Widget _tarjeta(BuildContext context, Pelicula pelicula) {
+    return Column(
+      children: <Widget>[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/no-image.jpg'),
+            image: NetworkImage(pelicula.getPosterImage()),
+            fit: BoxFit.fill,
+            height: 160.0,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Text(
-              pelicula.title,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Text(
+            pelicula.title,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
           ),
-        ],
-      );
-    }).toList();
+        ),
+      ],
+    );
   }
+
+//   List<Widget> _tarjetas(BuildContext context) {
+//     return peliculas.map((pelicula) {
+//       return Column(
+//         children: <Widget>[
+//           ClipRRect(
+//             borderRadius: BorderRadius.circular(20.0),
+//             child: FadeInImage(
+//               placeholder: AssetImage('assets/images/no-image.jpg'),
+//               image: NetworkImage(pelicula.getPosterImage()),
+//               fit: BoxFit.fill,
+//               height: 160.0,
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(top: 5.0),
+//             child: Text(
+//               pelicula.title,
+//               overflow: TextOverflow.ellipsis,
+//               style: Theme.of(context).textTheme.caption,
+//             ),
+//           ),
+//         ],
+//       );
+//     }).toList();
+//   }
 }
