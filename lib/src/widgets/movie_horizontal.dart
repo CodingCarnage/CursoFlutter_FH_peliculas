@@ -36,7 +36,7 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
-    return Column(
+    final Column tarjeta = Column(
       children: <Widget>[
         ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
@@ -56,6 +56,14 @@ class MovieHorizontal extends StatelessWidget {
           ),
         ),
       ],
+    );
+
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+        print('Titulo de la pelicula: ${pelicula.title}');
+      },
     );
   }
 
