@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 
 class MovieHorizontal extends StatelessWidget {
-  MovieHorizontal({Key key, @required this.peliculas, @required this.siguientePagina}) : super(key: key);
+  MovieHorizontal(
+      {Key key, @required this.peliculas, @required this.siguientePagina})
+      : super(key: key);
 
   final List<Pelicula> peliculas;
   final Function siguientePagina;
@@ -38,13 +40,16 @@ class MovieHorizontal extends StatelessWidget {
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
     final Column tarjeta = Column(
       children: <Widget>[
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/no-image.jpg'),
-            image: NetworkImage(pelicula.getPosterImage()),
-            fit: BoxFit.fill,
-            height: 160.0,
+        Hero(
+          tag: pelicula.id,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/no-image.jpg'),
+              image: NetworkImage(pelicula.getPosterImage()),
+              fit: BoxFit.fill,
+              height: 160.0,
+            ),
           ),
         ),
         Padding(
@@ -62,34 +67,7 @@ class MovieHorizontal extends StatelessWidget {
       child: tarjeta,
       onTap: () {
         Navigator.pushNamed(context, 'detalle', arguments: pelicula);
-        print('Titulo de la pelicula: ${pelicula.title}');
       },
     );
   }
-
-//   List<Widget> _tarjetas(BuildContext context) {
-//     return peliculas.map((pelicula) {
-//       return Column(
-//         children: <Widget>[
-//           ClipRRect(
-//             borderRadius: BorderRadius.circular(20.0),
-//             child: FadeInImage(
-//               placeholder: AssetImage('assets/images/no-image.jpg'),
-//               image: NetworkImage(pelicula.getPosterImage()),
-//               fit: BoxFit.fill,
-//               height: 160.0,
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(top: 5.0),
-//             child: Text(
-//               pelicula.title,
-//               overflow: TextOverflow.ellipsis,
-//               style: Theme.of(context).textTheme.caption,
-//             ),
-//           ),
-//         ],
-//       );
-//     }).toList();
-//   }
 }
