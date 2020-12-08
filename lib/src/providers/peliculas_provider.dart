@@ -5,8 +5,11 @@ import 'dart:async';
 
 import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:peliculas/src/models/actores_model,.dart';
+import 'package:peliculas/src/models/actor_detalles_model.dart';
 
 class PeliculasProvider {
+  // Movie ID (Joker) = 475557
+  // Actor ID (Joaquin Phoenix) = 73421
   String _apikey = '3b81cd78256d41d568e5bfc9f115f4d5';
   String _url = 'api.themoviedb.org';
   String _language = 'es-MX';
@@ -84,12 +87,23 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> buscarPelicula(String query) async {
-    final Uri url = Uri.https(_url, '3/search/movie', {
-      'api_key': _apikey,
-      'language': _language,
-      'query' : query
-    });
+    final Uri url = Uri.https(_url, '3/search/movie',
+        {'api_key': _apikey, 'language': _language, 'query': query});
 
     return await _procesarRespuesta(url);
+  }
+
+  Future<Detalles> getPersonDetails(String actorId) async {
+    final Uri url = Uri.https(_url, '3/person/$actorId', {
+      'api_key': _apikey,
+      'language': _language,
+    });
+
+    final http.Response respuesta = await http.get(url);
+    final Map decodedData = json.decode(respuesta.body);
+
+    final Detalles actorDetalles = new Detalles.fromJsonMap(decodedData);
+
+    return actorDetalles;
   }
 }

@@ -13,23 +13,25 @@ class PeliculaDetalle extends StatelessWidget {
     final Pelicula pelicula = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          _crearAppbar(pelicula),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: _posterTitulo(context, pelicula),
-                ),
-                _descripcion(pelicula),
-                _descripcion(pelicula),
-                _casting(pelicula),
-              ],
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            _crearAppbar(pelicula),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: _posterTitulo(context, pelicula),
+                  ),
+                  _descripcion(pelicula),
+                  _descripcion(pelicula),
+                  _casting(pelicula),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -150,24 +152,28 @@ class PeliculaDetalle extends StatelessWidget {
             initialPage: 1,
           ),
           itemCount: actores.length,
-          itemBuilder: (context, index) => _actorTarjeta(actores[index]),
+          itemBuilder: (context, index) =>
+              _actorTarjeta(actores[index], context),
         ),
       ),
     );
   }
 
-  Widget _actorTarjeta(Actor actor) {
-    return Container(
+  Widget _actorTarjeta(Actor actor, BuildContext context) {
+    final Container tarjeta = Container(
       child: Column(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/images/no-image.jpg'),
-              image: NetworkImage(actor.getFoto()),
-              height: 148.4,
-              width: 100,
-              fit: BoxFit.cover,
+          Hero(
+            tag: actor.id,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                placeholder: AssetImage('assets/images/no-image.jpg'),
+                image: NetworkImage(actor.getFoto()),
+                height: 148.4,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Text(
@@ -176,6 +182,13 @@ class PeliculaDetalle extends StatelessWidget {
           ),
         ],
       ),
+    );
+
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        Navigator.pushNamed(context, 'actor_detalle', arguments: actor);
+      },
     );
   }
 }
