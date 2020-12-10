@@ -1,12 +1,14 @@
 class ActorCredits {
-  List<PeliculaAparece> items = new List<PeliculaAparece>();
+  List<PeliculaAparece> peliculas = new List<PeliculaAparece>();
+
   ActorCredits.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null)
+    if(jsonList == null)
       return;
-    for (var item in jsonList) {
-      final PeliculaAparece peliculaAparece = new PeliculaAparece.fromJsonMap(item);
-      items.add(peliculaAparece);
-    }
+    
+    jsonList.forEach((item) {
+      final PeliculaAparece peliculaAparece = PeliculaAparece.fromJsonMap(item);
+      peliculas.add(peliculaAparece);
+    });
   }
 }
 
@@ -56,22 +58,29 @@ class PeliculaAparece {
   PeliculaAparece.fromJsonMap(Map<String, dynamic> json) {
     id = json['id'];
     video = json['video'];
-    voteCount = json['voteCount'];
-    voteAverage = json['voteAverage'] / 1;
+    voteCount = json['vote_count'];
+    voteAverage = json['vote_average'];
     title = json['title'];
-    releaseDate = json['releaseDate'];
-    originalLanguage = json['originalLanguage'];
-    originalTitle = json['originalTitle'];
-    genreIds = json['genreIds'].cast<int>();
-    backdropPath = json['backdropPath'];
+    releaseDate = json['release_date'];
+    originalLanguage = json['original_language'];
+    originalTitle = json['original_title'];
+    genreIds = json['genre_ids'].cast<int>();
+    backdropPath = json['backdrop_path'];
     adult = json['adult'];
     overview = json['overview'];
-    posterPath = json['posterPath'];
-    popularity = json['popularity'] / 1;
+    posterPath = json['poster_path'];
+    popularity = json['popularity'];
     character = json['character'];
-    creditId = json['creditId'];
+    creditId = json['credit_id'];
     order = json['order'];
     department = json['department'];
     job = json['job'];
+  }
+
+  getPosterImage() {
+    if (posterPath == null)
+      return 'https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';
+    else
+      return 'https://image.tmdb.org/t/p/w500$posterPath';
   }
 }

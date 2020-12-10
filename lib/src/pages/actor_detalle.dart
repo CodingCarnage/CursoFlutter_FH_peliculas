@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:peliculas/src/models/actor_credits.dart';
 import 'package:peliculas/src/models/actor_detalles_model.dart';
 import 'package:peliculas/src/models/actores_model,.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
@@ -22,10 +24,12 @@ class ActorDetalle extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            padding: const EdgeInsets.only(top: 20.0),
             child: Column(
               children: [
                 _actorDetalle(actor),
+                SizedBox(height: 30.0),
+                _actorApareceEn(actor),
               ],
             ),
           ),
@@ -90,7 +94,9 @@ class ActorDetalle extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    detalles.placeOfBirth != null ? detalles.placeOfBirth : 'N/A',
+                    detalles.placeOfBirth != null
+                        ? detalles.placeOfBirth
+                        : 'N/A',
                     style: Theme.of(context).textTheme.subtitle1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -100,7 +106,9 @@ class ActorDetalle extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 0.5),
                         child: Text(
-                          detalles.popularity != null ? detalles.popularity.toString() : 'N/A',
+                          detalles.popularity != null
+                              ? detalles.popularity.toString()
+                              : 'N/A',
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
@@ -125,5 +133,68 @@ class ActorDetalle extends StatelessWidget {
     );
   }
 
-  
+  Widget _actorApareceEn(Actor actor) {
+    final PeliculasProvider peliculasProvider = new PeliculasProvider();
+
+    return FutureBuilder(
+      future: peliculasProvider.getPersonCredits(actor.id.toString()),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData)
+          return _apareceEnPageView(snapshot.data, context);
+        else
+          return Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  Widget _apareceEnPageView(List<PeliculaAparece> peliculaAparece, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+          child: Text(
+            'Aparece en',
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+        ),
+        SizedBox(
+          height: 175.0,
+          child: PageView.builder(
+            pageSnapping: false,
+            controller: PageController(
+              viewportFraction: 0.3,
+              initialPage: 1,
+            ),
+            itemCount: peliculaAparece.length,
+            itemBuilder: (context, index) =>
+                _peliculaAparaceTarjeta(peliculaAparece[index], context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _peliculaAparaceTarjeta(PeliculaAparece peliculaAparece, BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/no-image.jpg'),
+              image: NetworkImage(peliculaAparece.getPosterImage()),
+              height: 148.4,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            peliculaAparece.title,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
 }

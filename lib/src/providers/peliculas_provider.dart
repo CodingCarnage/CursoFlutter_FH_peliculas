@@ -109,7 +109,7 @@ class PeliculasProvider {
   }
 
   Future<List<PeliculaAparece>> getPersonCredits(String actorId) async {
-    final Uri url = Uri.https(_url, '/person/$actorId/movie_credits', {
+    final Uri url = Uri.https(_url, '3/person/$actorId/movie_credits', {
       'api_key': _apikey,
       'language': _language,
     });
@@ -119,6 +119,6 @@ class PeliculasProvider {
 
     final ActorCredits actorCredits = new ActorCredits.fromJsonList(decodedData['cast']);
 
-    return actorCredits.items;
+    return actorCredits.peliculas;
   }
 }
