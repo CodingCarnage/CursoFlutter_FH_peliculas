@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:peliculas/src/models/actores_model,.dart';
 import 'package:peliculas/src/models/actor_credits.dart';
 import 'package:peliculas/src/models/actor_detalles_model.dart';
-import 'package:peliculas/src/models/actores_model,.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 
 class ActorDetalle extends StatelessWidget {

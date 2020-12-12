@@ -33,7 +33,7 @@ class Detalles {
 
   Detalles.fromJsonMap(Map<String, dynamic> json) {
     adult = json['adult'];
-    alsoKnownAs = json['also_known_as'].cast<String>();
+    json['also_known_as'] != null ? alsoKnownAs = json['also_known_as'].cast<String>() : alsoKnownAs = json['also_known_as'];
     biography = json['biography'];
     birthday = json['birthday'];
     deathday = json['deathday'];
@@ -44,7 +44,7 @@ class Detalles {
     knownForDepartment = json['known_for_department'];
     name = json['name'];
     placeOfBirth = json['place_of_birth'];
-    popularity = json['popularity'] / 1;
+    json['popularity'] != null ? popularity = json['popularity'] / 1 : popularity = json['popularity'];
     profilePath = json['profile_path'];
   }
 

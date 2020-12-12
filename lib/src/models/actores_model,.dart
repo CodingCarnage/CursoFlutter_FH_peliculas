@@ -52,7 +52,7 @@ class Actor {
     knownForDepartment = json['known_for_department'];
     name = json['name'];
     originalName = json['original_name'];
-    popularity = json['popularity'] / 1;
+    json['popularity'] != null ? popularity = json['popularity'] / 1 : popularity = json['popularity'];
     profilePath = json['profile_path'];
     castId = json['cast_id'];
     character = json['character'];

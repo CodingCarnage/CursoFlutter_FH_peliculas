@@ -46,14 +46,14 @@ class Pelicula {
 
   Pelicula.fromJsonMap(Map<String, dynamic> json) {
     video = json['video'];
-    voteAverage = json['vote_average'] / 1;
-    popularity = json['popularity'] / 1;
+    json['vote_average'] != null ? voteAverage = json['vote_average'] / 1 : voteAverage = json['vote_average'];
+    json['popularity'] != null ? popularity = json['popularity'] / 1 : popularity = json['popularity'];
     voteCount = json['vote_count'];
     releaseDate = json['release_date'];
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     id = json['id'];
-    genreIds = json['genre_ids'].cast<int>();
+    json['genre_ids'] != null ? genreIds = json['genre_ids'].cast<int>() : genreIds = json['genre_ids'];
     title = json['title'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];

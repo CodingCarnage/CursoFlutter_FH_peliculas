@@ -59,7 +59,7 @@ class PeliculaAparece {
     id = json['id'];
     video = json['video'];
     voteCount = json['vote_count'];
-    voteAverage = json['vote_average'];
+    json['vote_average'] != null ? voteAverage = json['vote_average'] / 1 : voteAverage = json['vote_average'];
     title = json['title'];
     releaseDate = json['release_date'];
     originalLanguage = json['original_language'];
@@ -69,7 +69,7 @@ class PeliculaAparece {
     adult = json['adult'];
     overview = json['overview'];
     posterPath = json['poster_path'];
-    popularity = json['popularity'];
+    json['popularity'] != null ? popularity = json['popularity'] / 1 : popularity = json['popularity'];
     character = json['character'];
     creditId = json['credit_id'];
     order = json['order'];
