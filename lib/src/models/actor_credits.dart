@@ -64,7 +64,7 @@ class PeliculaAparece {
     releaseDate = json['release_date'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
-    genreIds = json['genre_ids'].cast<int>();
+    json['genre_ids'] != null ? genreIds = json['genre_ids'].cast<int>() : genreIds = json['genre_ids'];
     backdropPath = json['backdrop_path'];
     adult = json['adult'];
     overview = json['overview'];
